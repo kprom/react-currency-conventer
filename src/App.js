@@ -1,6 +1,8 @@
 import "./App.css";
 import { useState } from "react";
-import logo from "./images/panda.jpg";
+import Header from "./components/Header";
+import Result from "./components/Result";
+import Values from "./components/Values";
 
 function App() {
   const [amount, amountInput] = useState(0);
@@ -37,42 +39,17 @@ function App() {
   };
 
   return (
-    <>
-      <div className="container">
-        <header className="title">
-          <img className="logo" src={logo} alt="app-logo" />
-          <h1 className="heading">CURRENCY CONVERTER</h1>
-        </header>
-        <main>
-          <div className="values">
-            <input
-              type="number"
-              min="0"
-              onChange={(e) => amountInput(parseFloat(e.target.value))}
-            />
-            <select
-              value={selectedCurrency}
-              onChange={(e) => setSelectedCurrency(e.target.value)}
-            >
-              <option value="EUR">EUR</option>
-              <option value="USD">USD</option>
-              <option value="CHF">CHF</option>
-            </select>
-          </div>
-          <div className="buttonPosition">
-            <button className="convertButton" onClick={handleConvert}>
-              CONVERT
-            </button>
-          </div>
-        </main>
-        <footer>
-          <p className="paragraph">Converted amount:</p>
-          <div className="result">
-            {error ? <span className="error">{error}</span> : convertedResult}
-          </div>
-        </footer>
-      </div>
-    </>
+    <div className="container">
+      <Header />
+      <Values
+        amount={amount}
+        amountInput={amountInput}
+        selectedCurrency={selectedCurrency}
+        setSelectedCurrency={setSelectedCurrency}
+        handleConvert={handleConvert}
+      />
+      <Result error={error} convertedResult={convertedResult} />
+    </div>
   );
 }
 
