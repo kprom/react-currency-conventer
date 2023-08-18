@@ -1,0 +1,17 @@
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px 20px 0px 20px;
+}
+
+.logo {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.heading {
+  font-size: 23px;
+}

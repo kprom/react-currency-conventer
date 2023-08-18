@@ -1,17 +1,24 @@
 import "./App.css";
 import { useState } from "react";
-import Header from "./components/Header";
-import Result from "./components/Result";
-import Values from "./components/Values";
+import Header from "./components/Header/Header";
+import Result from "./components/Result/Result";
+import Form from "./components/Form/Form";
 
 function App() {
-  const [amount, amountInput] = useState(0);
+  const [amountInput, setAmountInput] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState("EUR");
   const [convertedResult, setConvertedResult] = useState("");
-  const [error, setError] = useState(null);
+
+  const handleAmountInputChange = (value) => {
+    setAmountInput(value);
+  };
+
+  const handleSelectCurrencyChange = (value) => {
+    setSelectedCurrency(value);
+  };
 
   const handleConvert = () => {
-    if (amount <= 0) {
+    if (amountInput <= 0) {
       setConvertedResult("Invalid amount. Minimum amount is 0.01");
       return;
     }
@@ -24,7 +31,7 @@ function App() {
         const rate = data.rates?.[0]?.mid;
 
         if (rate) {
-          const convertedAmount = amount * rate;
+          const convertedAmount = amountInput * rate;
           setConvertedResult(convertedAmount.toFixed(2) + " PLN");
         } else {
           setConvertedResult(
@@ -34,21 +41,21 @@ function App() {
       })
       .catch((error) => {
         console.error(error);
-        setError("Error occurred downloading data");
+        setConvertedResult("Error occurred downloading data");
       });
   };
 
   return (
     <div className="container">
       <Header />
-      <Values
-        amount={amount}
+      <Form
         amountInput={amountInput}
         selectedCurrency={selectedCurrency}
-        setSelectedCurrency={setSelectedCurrency}
         handleConvert={handleConvert}
+        handleSelectCurrencyChange={handleSelectCurrencyChange}
+        handleAmountInputChange={handleAmountInputChange}
       />
-      <Result error={error} convertedResult={convertedResult} />
+      <Result convertedResult={convertedResult} />
     </div>
   );
 }
